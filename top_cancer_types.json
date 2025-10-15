@@ -1,0 +1,124 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Lollipop chart of the most common cancers in Australia by estimated number of cases (2024), highlighting Melanoma of the skin.",
+  "title": {
+    "text": "Estimated number of new cancer cases in Australia in 2024",
+    "fontSize": 15,
+    "color": "#1b1b1b",
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "data/statistic-melanoma-estimated-cancer-incidence-2024_cleaned.csv"
+  },
+  "transform": [
+    {"calculate": "trim(datum['Cancer type'])", "as": "cancer"},
+    {"calculate": "replace(datum['Number of cases'], ',', '')", "as": "cases_str"},
+    {"calculate": "toNumber(datum.cases_str)", "as": "cases"},
+    {"filter": "datum.cancer !== null && datum.cancer !== ''"},
+    {"filter": "datum.cases !== null && !isNaN(datum.cases)"}
+  ],
+  "width": 470,
+  "height": {"step": 28},
+
+  "encoding": {
+    "y": {
+      "field": "Cancer type",
+      "type": "nominal",
+      "sort": "-x",
+      "axis": {
+        "labels": true,
+        "ticks": true,
+        "domain": false,
+        "title": null,
+        "labelFontSize": 12
+      }
+    },
+    "x": {
+      "field": "cases",
+      "type": "quantitative",
+      "title": "Number of new cases",
+      "axis": {
+        "grid": true,
+        "tickCount": 6,
+        "labelExpr": "format(datum.value, ',')",
+        "labels": true,
+        "ticks": true,
+        "domain": true,
+        "labelFontSize": 13,
+        "titleFontSize": 13
+      }
+    }
+  },
+
+  "layer": [
+   
+    {
+      "mark": {"type": "rule", "strokeWidth": 8},
+      "encoding": {
+        "x2": {"value": 0},
+        "color": {
+          "condition": {
+            "test": "datum['Cancer type'] === 'Melanoma of the skin'",
+            "value": "orange"
+          },
+          "value": "lightgrey"
+        }
+      }
+    },
+
+    
+    {
+      "mark": {"type": "circle", "size": 160, "opacity": 1, "strokeWidth": 4},
+      "encoding": {
+        "fill": {
+          "condition": {
+            "test": "datum['Cancer type'] === 'Melanoma of the skin'",
+            "value": "orange"
+          },
+          "value": "lightgrey"
+        },
+        "stroke": {
+          "condition": {
+            "test": "datum['Cancer type'] === 'Melanoma of the skin'",
+            "value": "orange"
+          },
+          "value": "lightgrey"
+        },
+        "tooltip": [
+          {"field": "Cancer type", "type": "nominal"},
+          {
+            "field": "cases",
+            "type": "quantitative",
+            "title": "Estimated cases",
+            "format": ","
+          }
+        ]
+      }
+    },
+
+    
+    {
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "fill": "orange",
+        "align": "left",
+        "lineBreak": "\n"
+      },
+      "encoding": {
+        "x": {"value": 170},
+        "y": {"value": 190},
+        "text": {
+          "value": "The number of new Melanoma cases is \n5.5 times higher than Uterine cancer. \nIt is projected to have close to 19,000 \nnew cases in 2024."
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "axis": {"labelFontSize": 12, "titleFontSize": 13},
+    "view": {"stroke": "transparent", "clip": false}
+  }
+}

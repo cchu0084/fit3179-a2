@@ -1,0 +1,83 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Animated line chart showing melanoma incidence rate growing over time for persons, males, and females.",
+  "title": { 
+      "text": "Melanoma Age-Standardised Incidence Rate in Australia (1982 to 2020)",
+      "fontSize": 15,
+    "color": "#1b1b1b",
+    "anchor": "middle"
+    },
+  "data": {
+"url": "data/statistic_melanoma_incidence_over_years.csv"
+  },
+  "width": 800,
+  "height": {"step": 25},
+  "params": [
+{
+  "name": "yearFilter",
+  "value": 1982
+   }
+  ],
+
+  "transform": [
+    {"filter": "toNumber(datum.Year) <= yearFilter"},
+    {
+      "fold": ["Persons", "Males", "Females"],
+      "as": ["Category", "Rate"]
+    },
+    {
+      "calculate": "toNumber(datum.Rate)",
+      "as": "Rate"
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": true
+  },
+  "encoding": {
+    "x": {
+  "field": "Year",
+  "type": "quantitative",
+  "title": "Year",
+  "scale": {"domain": [1982, 2020]},
+  "axis": {
+    "labelAngle": 0,
+    "tickMinStep": 2,
+    "format": "d"
+  }
+},
+    "y": {
+      "field": "Rate",
+      "type": "quantitative",
+      "title": "Age-standardised rate (per 100,000)",
+      "scale": {"domain": [0, 100]}
+    },
+    "color": {
+      "field": "Category",
+      "type": "nominal",
+      "title": null,
+      "scale": {
+        "domain": ["Persons", "Males", "Females"],
+        "range": ["#1f77b4", "#8B4513", "#6a3d9a"]
+      }
+    },
+    "shape": { "value": "circle" },
+    "tooltip": [
+      {"field": "Year", "type": "ordinal"},
+      {"field": "Category", "type": "nominal"},
+      {"field": "Rate", "type": "quantitative", "title": "ASR per 100,000"}
+    ]
+  },
+  "config": {
+    "axis": {
+      "labelAngle": 0, 
+      "labelFontSize": 11,
+      "titleFontSize": 13
+    },
+    "legend": {
+  "orient": "right",
+  "title": null,
+  "direction": "vertical"
+    }
+  }
+}

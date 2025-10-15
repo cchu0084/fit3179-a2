@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Skin Cancer Melanoma Visualisation</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <style>
+    :root{
+      --bg-url: url("FIT3179 A2/image/sun-beach-sunscreen");
+      --veil: rgba(255,255,255,0.26);
+      --card-bg: #fff;
+      --hero-bg: rgba(250, 209, 171, 0.95);
+      --accent: #1E90FF;
+      --text: #1b1b1b;
+      --muted: #595959;
+      --max-width: 980px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image: url("image/sun-beach-sunscreen.png");
+      background-size: cover;
+      background-position: top center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      filter: saturate(0.95) brightness(0.95);
+    }
+
+    .bg-veil{
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      background: linear-gradient(var(--veil), var(--veil));
+    }
+
+    .page{ display:flex; justify-content:center; padding:48px 18px; }
+    .card{
+      width:100%; max-width:var(--max-width);
+      background:var(--card-bg);
+      border-radius:12px; padding:24px;
+      box-shadow: 0 20px 40px rgba(12,18,30,0.12);
+    }
+
+    header.hero{
+      text-align:center;
+      margin:-18px -18px 18px -18px;
+      padding:22px 16px;
+      background:var(--hero-bg);
+      border-radius:8px;
+    }
+    header.hero h1{ margin:0; font-size:32px; font-weight:700; color:var(--text); }
+    header.hero p{ margin:8px 0 0; color:var(--muted); font-size:14px; }
+
+    .intro{ color:var(--muted); font-size:14px; line-height:1.45; margin:12px 4px 18px; }
+
+    .viz{ background:transparent; border:0; padding:0; margin-bottom:14px; overflow:visible; }
+    .viz > div{ width:100%; max-width:100%; }
+
+    /* shared title look */
+    .section-title{
+      display:flex; align-items:center; gap:12px; margin:0 0 6px;
+    }
+    .section-title .text{ font-weight:700; font-size:18px; color:var(--text); }
+    .section-title::after{
+      content:""; flex:1; height:1px;
+      background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.06) 60%, transparent);
+    }
+
+    .section-subtitle{ margin:0 0 10px; font-size:14px; line-height:1.5; color:var(--text); }
+
+    /* two independent chart/text rows */
+    .chart-row{
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap:18px 24px;
+      align-items:start;
+      margin-bottom:24px;
+    }
+
+    .chart-row .chart-box{
+      flex:1;
+      min-width:0;
+    }
+    .chart-row .text-box{
+      font:400 14px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color:var(--text);
+      min-width:0;
+    }
+    .text-shift-right {
+    margin-left: 18px;  /* move the text 15px to the right */
+    }
+
+    .word-accent{ color: var(--accent); font-weight:600; }
+    .word-muted { color: var(--muted); }
+
+    footer{ margin-top:12px; color:var(--muted); font-size:13px; }
+
+    @media (max-width:1100px){
+      .chart-row{ grid-template-columns:1fr; }
+    }
+
+
+  /* Butterfly chart controls */
+  #incidence_mortality_butterfly_chart_controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 8px;
+  }
+  #incidence_mortality_butterfly_chart_controls label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    white-space: nowrap;
+  }
+  #incidence_mortality_butterfly_chart_controls input[type="range"] {
+    width: 300px;
+    max-width: 50vw;
+  }
+  #incidence_mortality_butterfly_chart_controls select {
+    height: 20px;
+  }
+
+/* butterfly chart textbox*/ 
+.chart-row .chart-box{ flex:1; min-width:0; } 
+.chart-row .text-box{ font:400 14px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif; color:var(--text); min-width:0; } 
+.text-shift-right { margin-left: 20px; /* move the text 15px to the right */ 
+} 
+/* geographical map */ 
+.chart-row .chart-box{ flex:1; min-width:0; } 
+.chart-row .text-box{ font:400 14px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif; color:var(--text); min-width:0; } 
+.text-shift-right { margin-left: 30px; /* move the text 15px to the right */ }
+
+  </style>
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true"></div>
+  <div class="bg-veil" aria-hidden="true"></div>
+
+  <div class="page">
+    <main class="card" role="main">
+      <header class="hero" role="banner">
+        <h1>Slip, Slop, Slap, Still? Tracking Skin Cancer in Australia</h1>
+        <p>Age-standardised incidence, mortality and UV exposure visualisation</p>
+      </header>
+
+      <p class="intro">
+        Melanoma is a malignant tumour that develops from melanocytes (the pigment-producing cells of the skin)
+        and is the <span class="word-accent">most dangerous</span> form of skin cancer because of its ability to spread.
+        It is a <span class="word-accent">major</span> public health concern in Australia. Strong year-round UV radiation,
+        a largely fair-skinned population, and long cultural sun exposure push Australian melanoma rates above those
+        of North America and Europe. 
+      </p>
+
+      <!-- FIRST CHART + TEXT -->
+      <div class="section-title"><span class="text">Australia's global standing</span></div>
+      <div class="chart-row">
+        <div class="chart-box">
+          <div id="skin_cancer_asr" class="viz"></div>
+        </div>
+        <div class="text-box">
+          
+          <p>
+            According to the World Cancer Research Fund, there were
+            <span class="word-accent">331,722</span> new melanoma cases globally in 2022.
+            Of these, Australia had <span class="word-accent">16,819</span> new cases, and recorded the
+            <span class="word-accent">highest</span> age-standardised incidence rate (ASR) internationally.
+          </p>
+          <p class="word-muted" style="font-size:14px; margin-top:8px;">
+            *ASR is the rate a population would have if it had a standard age structure.
+          </p>
+        </div>
+      </div>
+
+      <!-- SECOND CHART + TEXT -->
+      <div class="section-title"><span class="text">Top cancer incidences</span></div>
+      <div class="chart-row">
+        <div class="chart-box">
+          <div id="top_cancer_types" class="viz"></div>
+        </div>
+        <div class="text-box text-shift-right">
+          <p>Melanoma remains one of Australia's <span class="word-accent">most commonly diagnosed</span>
+            invasive cancers; about <span class="word-accent">1 in 17</span> Australians will be diagnosed by 
+            <span class="word-accent">age 85</span>.
+          </p>
+          <p>
+            In 2020, melanoma ranked as the <span class="word-accent">third</span> most commonly diagnosed cancer in Australia,
+            with projections indicating it will remain third in 2024. 
+          </p> 
+          <p>
+
+          </p> 
+          <p>
+            Despite improvements in early detection and treatment, melanoma continues to pose a <span class="word-accent">significant</span> public health
+            challenge for prevention and screening programs.
+          </p>
+        </div>
+      </div>
+
+      <!-- LINE CHART -->
+      <div class="section-title"><span class="text">Trend over the years for new cases</span></div>
+      <p class="section-subtitle">
+        Incidence of melanoma in Australia has steadily <span class="word-accent">increased</span> over the decades, with <span class="word-accent">higher</span> rates among <span class="word-accent">males</span>.
+        In 2020, the age-standardised incidence rate was <span class="word-accent">59 cases per 100,000 persons</span> (73 for males and 47 for females).
+        The incidence rate for melanoma of the skin is expected to <span class="word-accent">increase with age</span>, highest for those <span class="word-accent">aged 85 to 89 years</span>.
+      </p>
+      <div id="melanoma_trend" class="viz"></div>
+
+      <!-- BUTTERFLY CHART--> 
+       <div class="section-title"><span class="text">Melanoma by state and territory: Incidence and Mortality</span></div> 
+      <div class="chart-row"> 
+        <div class="chart-box"> 
+          <div id="incidence_mortality_butterfly_chart" class="viz"></div> 
+          <div id="incidence_mortality_butterfly_chart_controls"></div> 
+        </div> 
+        <div class="text-box text-shift-right"> 
+          <p> 
+            Data from 2012 to 2020 indicates that <span class="word-accent">Queensland</span> has notably <span class="word-accent">higher rates</span> of skin 
+            cancer and melanoma, which could be due to various factors such as <span class="word-accent">high UV exposure or outdoor lifestyle</span>. 
+          </p> 
+          
+        <p> 
+          All rates for this chart are age-standardised to the 2024 Australian population, enabling fair comparison 
+          across regions with different population age structures.  
+        </p> 
+        <p> 
+          Hover over data points to see exact values. 
+        </p> 
+      </div> 
+    </div> 
+    
+    <!-- GEOGRAPHICAL CHART--> 
+     <div class="section-title"><span class="text">UV Index by state</span></div> 
+     <div class="chart-row"> 
+      <div class="chart-box"> 
+        <div id="uvmap" class="viz"></div> 
+      </div> <div class="text-box text-shift-right"> 
+        <p> 
+          Australia records some of the highest levels of UV radiation worldwide, largely due to its proximity 
+          to the equator and the abundance of clear, sunny days. 
+          </p>
+          <p>
+          To track UV exposure, the UV Index, a standardised measure of UV intensity, is used. At solar noon, values 
+          typically fall between 0 and 12, with readings <span class="word-accent">above 11 classified as extreme</span>. 
+        </p> 
+        <p> 
+          Melanoma develops when DNA damage in melanocytes (the skin cells that produce pigment) goes unrepaired. 
+          This damage triggers abnormal cell growth, driven by both genetic predisposition and excessive UV exposure. 
+        </p> 
+        <p> 
+          Hover over data points to see exact UV values. 
+        </p> 
+      </div> 
+    </div> 
+
+      <!--  SCATTERPLOT CHART-->
+      <div class="section-title"><span class="text">Sunscreen behaviour among Australians</span></div>
+      <div class="chart-row"> 
+       <div class="chart-box"> 
+        <div id="prop_sunscreen_usage" class="viz"></div>
+      </div> <div class="text-box text-shift-right"> 
+        <p> 
+          Regular use of sunscreen is a key strategy in reducing the risk of skin cancer, particularly when 
+          combined with other sun protection measures. According to Cancer Council Australia, <span class="word-accent">sunscreen should be 
+          applied whenever the UV Index is forecast to reach 3 or higher</span>. 
+        </p> 
+        <p> 
+          In the ACT, nearly half of residents <span class="word-accent">(49.2%)</span> reported using sunscreen on most days in the past 
+          month, notably <span class="word-accent">higher than the national average of 38.1%</span>. In contrast, usage was lower in Queensland (35.3%) 
+          and South Australia (35.4%). Across <span class="word-accent">all</span> states and territories, <span class="word-accent">females</span> were generally <span class="word-accent">more likely</span> than males 
+          to use sunscreen regularly.
+        </p> 
+      </div> 
+    </div> 
+
+      <footer>
+        Author: Carissa Chua
+        <p>
+        Date: 17 October 2025
+        </p>
+        Sources: Australian Institue of Health and Welfare, Cancer Australia, Cancer Council, Australian Bureau of Statistics.
+      </footer>
+    </main>
+  </div>
+
+
+  <script src="vega_lite_vis.js" defer></script>
+</body>
+</html>

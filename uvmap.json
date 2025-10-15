@@ -1,0 +1,92 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 530,
+  "height": 410,
+  "title": {
+    "text": "Average annual solar ultraviolet (UV) Index in Australia by state",
+    "fontSize": 14.5
+  },
+  "projection": { "type": "mercator", "center": [134, -28], "scale": 610 },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/cchu0084/FIT3179/refs/heads/main/ausmapwgrati.json",
+        "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+      },
+      "mark": { "type": "geoshape", "stroke": "lightgrey", "strokeWidth": 0.5 }
+    },
+    {
+      "data": { "graticule": { "step": [5, 5] } },
+      "mark": { "type": "geoshape", "stroke": "lightgrey", "strokeWidth": 0.5 }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/cchu0084/FIT3179/refs/heads/main/ausmapwgrati.json",
+        "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/cchu0084/FIT3179/refs/heads/main/Australia_UV_Index_By_State1.csv",
+              "format": { "type": "csv" }
+            },
+            "key": "State/Territory",
+            "fields": ["Average UV Index"]
+          }
+        }
+      ],
+      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.5 },
+      "encoding": {
+        "color": {
+          "field": "Average UV Index",
+          "type": "quantitative",
+          "scale": { "scheme": "blues", "domain": [1, 14] },
+          "title": "UV Index"
+        },
+        "tooltip": [
+          { "field": "properties.name", "type": "nominal", "title": "State:" },
+          { "field": "Average UV Index", "type": "quantitative", "title": "Average UV Index:" }
+        ]
+      }
+    },
+
+   
+    {
+      "data": {
+        "values": [
+          { "name": "Western Australia", "lon": 122, "lat": -25 },
+          { "name": "Northern Territory", "lon": 134, "lat": -19 },
+          { "name": "South Australia", "lon": 135, "lat": -30 },
+          { "name": "Queensland", "lon": 142.5, "lat": -21 },
+          { "name": "New South Wales", "lon": 147, "lat": -31 },
+          { "name": "Victoria", "lon": 145, "lat": -37 },
+          { "name": "Tasmania", "lon": 147, "lat": -42.2 },
+          { "name": "ACT", "lon": 149.1, "lat": -34.7, "dx": 8, "dy": -6 } 
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 10,
+        "fontWeight": 100,
+        "fill": "black",
+        "stroke": "black",
+        "strokeWidth": 1,         
+        "align": "center",
+        "baseline": "middle"
+      },
+      "encoding": {
+        "text": { "field": "name" },
+        "longitude": { "field": "lon" },
+        "latitude": { "field": "lat" },
+        "dx": { "field": "dx" },
+        "dy": { "field": "dy" }
+      }
+    }
+  ],
+  "config": {
+    "axis": { "domain": false, "grid": false },
+    "view": { "stroke": "transparent" }
+  }
+}

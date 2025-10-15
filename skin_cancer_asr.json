@@ -1,0 +1,84 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 520,
+  "height": 200,
+  "title": {
+    "text": "Skin Cancer Age-Standardised Rate per 100,000 in 2022",
+    "fontSize": 15,
+    "color": "#1b1b1b",
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "data/skin_cancer_asr_cleaned.csv"
+  },
+
+  "layer": [
+
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "ASR_per_100k",
+          "type": "quantitative",
+          "title": "ASR per 100,000",
+          "axis": {
+            "values": [0, 5, 10, 15, 20, 25, 30, 35, 40],
+            "labelFontSize": 14,
+            "titleFontSize": 12.5
+          }
+        },
+        "y": {
+          "field": "Country",
+          "type": "nominal",
+          "sort": [
+            "Australia",
+            "US",
+            "Germany",
+            "UK",
+            "Canada",
+            "France",
+            "Italy",
+            "Russia",
+            "Brazil",
+            "China"
+          ],
+          "title": null,
+          "axis": {
+            "labelFontSize": 12.5,
+            "labelLimit": 350,
+            "labelPadding": 3
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Country == 'Australia'",
+            "value": "orange"
+          },
+          "value": "lightgrey"
+        },
+        "tooltip": [
+          { "field": "Country", "type": "nominal" },
+          {
+            "field": "ASR_per_100k",
+            "type": "quantitative",
+            "title": "ASR per 100k"
+          }
+        ]
+      }
+    },
+    {
+      "data": { "values": [{}] },
+      "mark": {
+        "type": "text",
+        "x": 270,          
+        "y": 105,           
+        "text": "Australia's Melanoma incidence is \ndramatically higher, over 100 times \nhigher than China's and 10 times \nthe global average of 3.2.",
+        "fontSize": 13,
+        "fontWeight": "bold",
+        "fill": "orange",
+        "align": "left",
+        "lineBreak": "\n"
+      }
+    }
+  ]
+}

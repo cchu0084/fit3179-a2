@@ -1,0 +1,89 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+    "description": "A ranged dot plot for proportion who used sunscreen (Male vs Female).",
+    "data": {"url": "data/Prop_who_used_sunscreen_long.csv"},
+    "title": {
+    "text": "Proportion of people 15 years and older who used sunscreen on most days in the last month",
+    "fontSize": 14,
+    "color": "#1b1b1b",
+    "anchor": "start"
+  },
+    "width": 400,
+    "height": {"step": 40},
+
+    "transform": [
+      {
+        "filter": {
+          "field": "sex",
+          "oneOf": ["Male", "Female"]
+        }
+      }
+    ],
+    "encoding": {
+      "x": {
+        "field": "percentage",
+        "type": "quantitative",
+        "title": "Percentage (%)"
+      },
+      "y": {
+        "field": "State",
+        "type": "nominal",
+        "title": null,
+        "sort": [
+          "Western Australia",
+          "Victoria",
+          "Tasmania",
+          "South Australia",
+          "Queensland",
+          "Northern Territory",
+          "New South Wales",
+          "Australian Capital Territory"
+        ],
+        "axis": {
+          "offset": 5,
+          "ticks": false,
+          "minExtent": 70,
+          "domain": false,
+          "labelFontSize": 12,      
+          "labelFontWeight": 400 
+        }
+      }
+    },
+    "layer": [
+      {
+        "mark": "line",
+        "encoding": {
+          "detail": {
+            "field": "State",
+            "type": "nominal"
+          },
+          "color": {"value": "grey"}
+        }
+      },
+      {
+        "mark": {
+          "type": "point",
+          "filled": true
+        },
+        "encoding": {
+          "color": {
+            "field": "sex",
+            "type": "nominal",
+            "scale": {
+              "domain": ["Male", "Female"],
+              "range": ["#8B4513", "#6a3d9a"]
+            },
+            "title": "Sex"
+          },
+          "size": {"value": 100},
+          "opacity": {"value": 1},
+          "tooltip": [
+            {"field": "State", "type": "nominal", "title": "State:"},
+            {"field": "sex", "type": "nominal", "title": "Sex:"},
+            {"field": "percentage", "type": "quantitative", "title": "Percentage (%):"}
+          ]
+        }
+      }
+    ]
+  }
+  
