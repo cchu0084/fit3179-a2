@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 520,
-  "height": 200,
+  "height": 238,
   "title": {
     "text": "Skin Cancer Age-Standardised Rate per 100,000 in 2022",
     "fontSize": 15,
