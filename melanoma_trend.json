@@ -3,15 +3,15 @@
   "description": "Animated line chart showing melanoma incidence rate growing over time for persons, males, and females.",
   "title": { 
       "text": "Melanoma Age-Standardised Incidence Rate in Australia (1982 to 2020)",
-      "fontSize": 15,
+      "fontSize": 16,
     "color": "#1b1b1b",
     "anchor": "middle"
     },
   "data": {
 "url": "data/statistic_melanoma_incidence_over_years.csv"
   },
-  "width": 800,
-  "height": {"step": 25},
+  "width": 870,
+  "height": {"step": 26},
   "params": [
 {
   "name": "yearFilter",
@@ -71,13 +71,14 @@
   "config": {
     "axis": {
       "labelAngle": 0, 
-      "labelFontSize": 11,
-      "titleFontSize": 13
+      "labelFontSize": 12,
+      "titleFontSize": 14
     },
     "legend": {
-  "orient": "right",
+  "orient": "bottom-right",
   "title": null,
-  "direction": "vertical"
+  "direction": "horizontal",
+  "labelFontSize": 12
     }
   }
 }
