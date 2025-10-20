@@ -14,7 +14,7 @@ vegaEmbed("#melanoma_trend", "melanoma_trend.json", { actions: false }).then(fun
       currentYear++;
       setTimeout(animate, 450); 
     } else {
-      
+      // loop back to start
       currentYear = 1982;
       setTimeout(animate, 4000); 
     }
@@ -51,7 +51,7 @@ vegaEmbed("#top_cancer_types", "top_cancer_types.json", { actions: false })
     bind: CTRL_SEL
   })
   .then(({ view }) => {
-   
+    // Optional logic
   })
   .catch(err => {
     console.error("[butterfly] Failed to render chart:", err);
@@ -65,5 +65,10 @@ vegaEmbed("#uvmap", "uvmap.json", { actions: false })
 
 // Chart 6: Scatter plot
 vegaEmbed("#prop_sunscreen_usage", "prop_sunscreen_usage.json", { actions: false })
+  .then(res => {})
+  .catch(console.error);
+
+  // Chart 7: donut chart
+  vegaEmbed("#donutchart", "donutchart.json", { actions: false })
   .then(res => {})
   .catch(console.error);
