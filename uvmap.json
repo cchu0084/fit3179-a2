@@ -1,12 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "width": 530,
-  "height": 410,
+  "width": 450,
+  "height": 420,
   "title": {
     "text": "Average Monthly UV Index in Australia by State",
-    "fontSize": 14.5
+    "fontSize": 16
   },
-  "projection": { "type": "mercator", "center": [134, -28], "scale": 610 },
+  "projection": { "type": "mercator", "center": [134, -28], "scale": 615 },
 
   "params": [
     {
@@ -55,7 +55,7 @@
         },
         { "calculate": "toNumber(datum.UV_Index)", "as": "UVnum" }
       ],
-      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.5 },
+      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.7 },
       "encoding": {
         "shape": { "field": "map_geometry", "type": "geojson" },
         "color": {
@@ -75,7 +75,8 @@
               "#e65100"
             ]
           },
-          "title": "UV Index"
+          "title": "UV Index",
+          "legend": {"orient": "bottom-left", "direction": "horizontal", "titleAnchor": "start","titleFontSize": 14, "labelFontSize": 12.5}
         },
         "tooltip": [
           { "field": "State", "title": "State:" },
@@ -89,9 +90,9 @@
       "data": {
         "values": [
           { "name": "Western Australia", "lon": 122, "lat": -25 },
-          { "name": "Northern Territory", "lon": 134, "lat": -19 },
-          { "name": "South Australia", "lon": 135, "lat": -30 },
-          { "name": "Queensland", "lon": 142.5, "lat": -21 },
+          { "name": "Northern Territory", "lon": 133.5, "lat": -19 },
+          { "name": "South Australia", "lon": 135, "lat": -29 },
+          { "name": "Queensland", "lon": 143.5, "lat": -22 },
           { "name": "New South Wales", "lon": 147, "lat": -31 },
           { "name": "Victoria", "lon": 145, "lat": -37 },
           { "name": "Tasmania", "lon": 147, "lat": -42.2 },
@@ -100,8 +101,8 @@
       },
       "mark": {
         "type": "text",
-        "fontSize": 10,
-        "fontWeight": 100,
+        "fontSize": 12,
+        "fontWeight": "lighter",
         "fill": "black",
         "stroke": "black",
         "strokeWidth": 1,
@@ -120,7 +121,7 @@
     {
       "data": {
         "values": [
-          { "note": "UV exposure is highest across northern \nAustralia and during the summer months." }
+          { "note": "" }
         ]
       },
       "mark": {
@@ -128,13 +129,13 @@
         "align": "left",
         "baseline": "bottom",
         "fontSize": 14,
-        "color": "black",
+        "color": "navy",
         "lineBreak": "\n"
       },
       "encoding": {
         "text": { "field": "note" },
-        "x": { "value": 40 },
-        "y": { "value": 345 }
+        "x": { "value": 20 },
+        "y": { "value": 365 }
       }
     }
   ],
