@@ -1,10 +1,10 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 520,
-  "height": 238,
+  "width": 390,
+  "height": 300,
   "title": {
     "text": "Skin Cancer Age-Standardised Rate per 100,000 in 2022",
-    "fontSize": 15,
+    "fontSize": 16,
     "color": "#1b1b1b",
     "anchor": "middle"
   },
@@ -23,8 +23,8 @@
           "title": "ASR per 100,000",
           "axis": {
             "values": [0, 5, 10, 15, 20, 25, 30, 35, 40],
-            "labelFontSize": 14,
-            "titleFontSize": 12.5
+            "labelFontSize": 12,
+            "titleFontSize": 14
           }
         },
         "y": {
@@ -44,7 +44,7 @@
           ],
           "title": null,
           "axis": {
-            "labelFontSize": 12.5,
+            "labelFontSize": 12,
             "labelLimit": 350,
             "labelPadding": 3
           }
@@ -70,12 +70,11 @@
       "data": { "values": [{}] },
       "mark": {
         "type": "text",
-        "x": 270,          
-        "y": 105,           
+        "x": 170,          
+        "y": 130,           
         "text": "Australia's Melanoma incidence is \ndramatically higher, over 100 times \nhigher than China's and 10 times \nthe global average of 3.2.",
-        "fontSize": 13,
-        "fontWeight": "bold",
-        "fill": "orange",
+        "fontSize": 14,
+        "fill": "navy",
         "align": "left",
         "lineBreak": "\n"
       }
