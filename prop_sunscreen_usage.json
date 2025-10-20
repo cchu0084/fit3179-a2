@@ -1,89 +1,84 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-    "description": "A ranged dot plot for proportion who used sunscreen (Male vs Female).",
-    "data": {"url": "data/Prop_who_used_sunscreen_long.csv"},
-    "title": {
-    "text": "Proportion of people 15 years and older who used sunscreen on most days in the last month",
-    "fontSize": 14,
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "A ranged dot plot for proportion who used sunscreen (Male vs Female).",
+  "data": {"url": "data/Prop_who_used_sunscreen_long_abbrev.csv"},
+  "title": {
+    "text": ["Proportion of people 15 years and older"," who used sunscreen on most days in the last month"],
+    "fontSize": 16,
     "color": "#1b1b1b",
-    "anchor": "start"
+    "anchor": "middle"
   },
-    "width": 400,
-    "height": {"step": 40},
+  "width": 400,
+  "height": {"step": 40},
 
-    "transform": [
-      {
-        "filter": {
-          "field": "sex",
-          "oneOf": ["Male", "Female"]
-        }
+  "transform": [
+    {"filter": {"field": "sex", "oneOf": ["Male", "Female"]}}
+  ],
+
+  "encoding": {
+    "x": {
+      "field": "percentage",
+      "type": "quantitative",
+      "title": "Percentage (%)",
+      "axis": {
+        "offset": 5,
+        "domain": false,
+        "labelFontSize": 12,
+        "titleFontSize": 14,
+        "labelFontWeight": 400,
+        "titlePadding": 10,
+        "ticks": true
       }
-    ],
-    "encoding": {
-      "x": {
-        "field": "percentage",
-        "type": "quantitative",
-        "title": "Percentage (%)"
-      },
-      "y": {
-        "field": "State",
-        "type": "nominal",
-        "title": null,
-        "sort": [
-          "Western Australia",
-          "Victoria",
-          "Tasmania",
-          "South Australia",
-          "Queensland",
-          "Northern Territory",
-          "New South Wales",
-          "Australian Capital Territory"
-        ],
-        "axis": {
-          "offset": 5,
-          "ticks": false,
-          "minExtent": 70,
-          "domain": false,
-          "labelFontSize": 12,      
-          "labelFontWeight": 400 
-        }
+    },                                 
+    "y": {
+      "field": "State",
+      "type": "nominal",
+      "title": null,
+      "sort": ["WA","VIC","TAS","SA","QLD","NT","NSW","ACT"],
+      "axis": {
+        "offset": 5,
+        "ticks": false,
+        "minExtent": 70,
+        "domain": false,
+        "labelFontSize": 12,
+        "titleFontSize": 14,
+        "labelFontWeight": 400
+      }
+    }
+  },
+
+  "layer": [
+    {
+      "mark": {"type": "line"},
+      "encoding": {
+        "detail": {"field": "State", "type": "nominal"},
+        "color": {"value": "lightgray"}
       }
     },
-    "layer": [
-      {
-        "mark": "line",
-        "encoding": {
-          "detail": {
-            "field": "State",
-            "type": "nominal"
-          },
-          "color": {"value": "grey"}
-        }
-      },
-      {
-        "mark": {
-          "type": "point",
-          "filled": true
+    {
+      "mark": {"type": "point", "filled": true},
+      "encoding": {
+        "color": {
+          "field": "sex",
+          "type": "nominal",
+          "scale": {"domain": ["Male","Female"], "range": ["#8B4513","#6a3d9a"]},
+          "title": "Sex",
+          "legend": {
+            "orient": "bottom-left",
+            "direction": "horizontal",
+            "titleAnchor": "start",
+            "titleFontSize": 14,
+            "labelFontSize": 12
+          }
         },
-        "encoding": {
-          "color": {
-            "field": "sex",
-            "type": "nominal",
-            "scale": {
-              "domain": ["Male", "Female"],
-              "range": ["#8B4513", "#6a3d9a"]
-            },
-            "title": "Sex"
-          },
-          "size": {"value": 100},
-          "opacity": {"value": 1},
-          "tooltip": [
-            {"field": "State", "type": "nominal", "title": "State:"},
-            {"field": "sex", "type": "nominal", "title": "Sex:"},
-            {"field": "percentage", "type": "quantitative", "title": "Percentage (%):"}
-          ]
-        }
+        "size": {"value": 100},
+        "opacity": {"value": 1},
+        "tooltip": [
+          {"field": "State", "type": "nominal", "title": "State:"},
+          {"field": "sex", "type": "nominal", "title": "Sex:"},
+          {"field": "percentage", "type": "quantitative", "title": "Percentage (%):", "format": ".1f"}
+        ]
       }
-    ]
-  }
-  
+    }
+  ]
+}
