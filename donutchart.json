@@ -1,0 +1,83 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Donut chart showing distribution of cancer stages by sex with a dropdown filter and bottom-right annotation.",
+  "title": {
+    "text": "Distribution of Cancer Stages by Sex in 2023",
+    "fontSize": 16,
+    "color": "#1b1b1b",
+    "anchor": "middle"
+  },
+  "width": 330,
+  "height": 350,
+  "data": {
+    "url": "data/distributionbystage.csv"
+  },
+  "params": [
+    {
+      "name": "sex_selection",
+      "value": "Male",
+      "bind": {
+        "input": "select",
+        "options": ["Male", "Female"],
+        "name": "Sex: "
+      }
+    }
+  ],
+  "transform": [{"filter": "datum.sex == sex_selection"}],
+  
+  "layer": [
+    {
+      "mark": {"type": "arc", "innerRadius": 70},
+      "encoding": {
+        "theta": {"field": "percentage", "type": "quantitative"},
+        "color": {
+          "field": "cancer stage",
+          "type": "nominal",
+          "title": "Cancer Stage",
+          "scale": {
+            "range": ["#F0CDE0", "#C5A6E8", "#F2C94C", "#6CA0DC", "#A0A0A0"]
+          },
+          "legend": {"orient": "right","titleFontSize": 14,
+            "labelFontSize": 12}
+        },
+        "tooltip": [
+          {"field": "cancer stage", "title": "Stage"},
+          {"field": "percentage", "title": "Percentage", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "fill": "navy",
+        "align": "center",
+        "lineBreak": "\n"
+      },
+      "encoding": {
+        "x": {"signal": "width/2"},
+        "y": {"signal": "height/2"},
+        "text": {"value": "Use dropdown \nto switch view"}
+      }
+    },
+    {
+      "data": {"values": [{}]},
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "fill": "navy",
+        "align": "left",
+        "lineBreak": "\n"
+      },
+      "encoding": {
+        "x": {"value": 265},
+        "y": {"value": 328},
+        "text": {
+          "value": "Over half are detected before\n reaching advanced stages"
+        }
+      }
+    }
+  ],
+  "view": {"stroke": null}
+}
