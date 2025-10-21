@@ -4,7 +4,9 @@
   "height": 420,
   "title": {
     "text": "Average Monthly UV Index in Australia by State",
-    "fontSize": 16
+    "fontSize": 16,
+    "color": "#1b1b1b",
+    "anchor": "start"
   },
   "projection": { "type": "mercator", "center": [134, -28], "scale": 615 },
 
