@@ -79,6 +79,23 @@
           {"field": "percentage", "type": "quantitative", "title": "Percentage (%):", "format": ".1f"}
         ]
       }
+    },
+    {
+      "data": {"values": [{"note": "NT shows the \nsmallest gap of \napproximately 11%"}]},
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "fontSize": 14,
+        "fill": "navy",
+        "lineBreak": "\n",
+        "dx": 10
+      },
+      "encoding": {
+        "x": {"value": 14},   
+        "y": {"value": 200},  
+        "text": {"field": "note"}
+      }
     }
   ]
 }
