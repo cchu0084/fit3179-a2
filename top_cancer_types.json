@@ -5,7 +5,7 @@
     "text": "Estimated new cancer cases in Australia in 2024",
     "fontSize": 16,
     "color": "#1b1b1b",
-    "anchor": "middle"
+    "anchor": "start"
   },
   "data": {
     "url": "data/statistic-melanoma-estimated-cancer-incidence-2024_shortened.csv"
