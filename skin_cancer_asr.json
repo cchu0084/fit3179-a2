@@ -6,7 +6,7 @@
     "text": "Skin Cancer Age-Standardised Rate per 100,000 in 2022",
     "fontSize": 16,
     "color": "#1b1b1b",
-    "anchor": "middle"
+    "anchor": "start"
   },
   "data": {
     "url": "data/skin_cancer_asr_cleaned.csv"
