@@ -5,7 +5,7 @@
     "text": "Distribution of Cancer Stages by Sex in 2023",
     "fontSize": 16,
     "color": "#1b1b1b",
-    "anchor": "middle"
+    "anchor": "start"
   },
   "width": 330,
   "height": 350,
